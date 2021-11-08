@@ -1,11 +1,14 @@
 import { useState, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/auth-slice";
 import { useHistory } from "react-router-dom";
 
-import classes from "./AuthForm.module.css";
+import classes from "./SignUpForm.module.css";
 
-const AuthForm = () => {
+const SignUpForm = () => {
+  const token = useSelector((state) => state.auth.token);
+  const logStatus = useSelector((state) => state.auth.isLoggedIn);
+
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -41,12 +44,17 @@ const AuthForm = () => {
 
     const data = await res.json();
     console.log(data);
+
+    dispatch(authActions.login(data.jwt));
   };
 
   return (
     <section className={classes.auth}>
+      <h1>{token}</h1>
+      <h1>{logStatus}</h1>
       <h1>Sign Up</h1>
       <form onSubmit={submitHandler}>
+      <h1>salut </h1>
         <div className={classes.control}>
           <label htmlFor="username">Your Username</label>
           <input type="text" onChange={updateUsernameHandler} />
@@ -67,4 +75,4 @@ const AuthForm = () => {
   );
 };
 
-export default AuthForm;
+export default SignUpForm;

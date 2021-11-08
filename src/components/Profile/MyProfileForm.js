@@ -1,9 +1,9 @@
-import classes from "./ProfileForm.module.css";
+import classes from "./MyProfileForm.module.css";
 import { useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-const ProfileForm = () => {
+const MyProfileForm = () => {
   const newPasswordInputRef = useRef();
   const token = useSelector((state) => state.auth.token);
   const history = useHistory();
@@ -31,6 +31,10 @@ const ProfileForm = () => {
   };
 
   return (
+    <>
+    <p>
+      {token}
+    </p>
     <form className={classes.form} onSubmit={submitHandler}>
       <div className={classes.control}>
         <label htmlFor="new-password">New Password</label>
@@ -45,7 +49,8 @@ const ProfileForm = () => {
         <button>Change Password</button>
       </div>
     </form>
+    </>
   );
 };
 
-export default ProfileForm;
+export default MyProfileForm;
