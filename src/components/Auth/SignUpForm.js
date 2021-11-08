@@ -32,6 +32,7 @@ const SignUpForm = () => {
       username: username,
       email: email,
       password: password,
+      description: "Je suis moi !",
     };
 
     const res = await fetch("http://localhost:1337/auth/local/register", {
@@ -54,7 +55,7 @@ const SignUpForm = () => {
       <h1>{logStatus}</h1>
       <h1>Sign Up</h1>
       <form onSubmit={submitHandler}>
-      <h1>salut </h1>
+        <h1>salut </h1>
         <div className={classes.control}>
           <label htmlFor="username">Your Username</label>
           <input type="text" onChange={updateUsernameHandler} />

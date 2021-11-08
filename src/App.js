@@ -8,13 +8,12 @@ import HomePage from "./pages/HomePage";
 import { useSelector } from "react-redux";
 
 import store from "./store/index";
+import UserProfile from "./components/Profile/UserProfile";
 
 function App() {
+  const token = useSelector((state) => state.auth.token);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
-  // const fetchMyProfile = () =>{
-  //   const
-  // }
 
   return (
     <Layout>
@@ -27,6 +26,9 @@ function App() {
         </Route>
         <Route path="/signin">
           <SignInForm />
+        </Route>
+        <Route path="/users/:id">
+          <UserProfile />
         </Route>
         {isLoggedIn && (
           <Route path="/profile">

@@ -8,7 +8,6 @@ const MyProfileForm = () => {
   const token = useSelector((state) => state.auth.token);
   const history = useHistory();
 
-
   const submitHandler = (e) => {
     e.preventDefault();
     const enteredNewPassword = newPasswordInputRef.current.value;
@@ -32,23 +31,21 @@ const MyProfileForm = () => {
 
   return (
     <>
-    <p>
-      {token}
-    </p>
-    <form className={classes.form} onSubmit={submitHandler}>
-      <div className={classes.control}>
-        <label htmlFor="new-password">New Password</label>
-        <input
-          type="password"
-          id="new-password"
-          ref={newPasswordInputRef}
-          minLength="7"
-        />
-      </div>
-      <div className={classes.action}>
-        <button>Change Password</button>
-      </div>
-    </form>
+      <small>{token}</small>
+      {/* <form className={classes.form} onSubmit={submitHandler}>
+        <div className={classes.control}>
+          <label htmlFor="new-password">New Password</label>
+          <input
+            type="password"
+            id="new-password"
+            ref={newPasswordInputRef}
+            minLength="7"
+          />
+        </div>
+        <div className={classes.action}>
+          <button>Change Password</button>
+        </div>
+      </form> */}
     </>
   );
 };
