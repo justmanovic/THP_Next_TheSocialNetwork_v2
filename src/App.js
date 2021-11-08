@@ -12,9 +12,9 @@ import store from "./store/index";
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
-  const fetchMyProfile = () =>{
-    const
-  } 
+  // const fetchMyProfile = () =>{
+  //   const
+  // }
 
   return (
     <Layout>
@@ -30,7 +30,7 @@ function App() {
         </Route>
         {isLoggedIn && (
           <Route path="/profile">
-            <MyProfile  />
+            <MyProfile />
           </Route>
         )}
         <Route path="*">
