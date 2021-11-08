@@ -6,120 +6,61 @@ import { useHistory } from "react-router-dom";
 import classes from "./AuthForm.module.css";
 
 const AuthForm = () => {
-  const dispatch = useDispatch();
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const [isLogin, setIsLogin] = useState(true);
-  const emailInputRef = useRef();
-  const passwordInputRef = useRef();
-  const [isLoading, setIsLoading] = useState(false);
-  const history = useHistory();
-
-  const switchAuthModeHandler = () => {
-    setIsLogin((prevState) => !prevState);
+  const updateUsernameHandler = (e) => {
+    setUsername(e.target.value);
+  };
+  const updateEmailHandler = (e) => {
+    setEmail(e.target.value);
+  };
+  const updatePasswordHandler = (e) => {
+    setPassword(e.target.value);
   };
 
-  const submitHandler = (e) => {
+  const dispatch = useDispatch();
+
+  const submitHandler = async (e) => {
+    console.log("inscription demandée");
     e.preventDefault();
-    const enteredEmail = emailInputRef.current.value;
-    const enteredPassword = passwordInputRef.current.value;
+    const dataAuth = {
+      username: username,
+      email: email,
+      password: password,
+    };
 
-    setIsLoading(true);
+    const res = await fetch("http://localhost:1337/auth/local/register", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dataAuth),
+    });
 
-    let url =
-      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyA0TBRZ8Rf7lz3aIICr6KoWgBlf5EcPDsw";
-    if (isLogin) {
-      fetch(url, {
-        method: "POST",
-        body: JSON.stringify({
-          email: enteredEmail,
-          password: enteredPassword,
-          returnSecureToken: true,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => {
-          setIsLoading(false);
-          if (res.ok) {
-            return res.json();
-          } else {
-            return res.json().then((data) => {
-              let errorMessage = "Authentication failed!";
-              // if (data && data.error && data.error.message) {
-              //   errorMessage = data.error.message;
-              // }
-              throw new Error(errorMessage);
-            });
-          }
-        })
-        .then((data) => {
-          //en cas de succès !
-          console.log(data);
-          dispatch(authActions.login(data.idToken));
-          history.replace("/");
-        })
-        .catch((err) => {
-          alert(err.message);
-        });
-    } else {
-      url =
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA0TBRZ8Rf7lz3aIICr6KoWgBlf5EcPDsw";
-      fetch(url, {
-        method: "POST",
-        body: JSON.stringify({
-          email: enteredEmail,
-          password: enteredPassword,
-          returnSecureToken: true,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((res) => {
-        setIsLoading(false);
-        if (res.ok) {
-        } else {
-          return res.json().then((data) => {
-            let errorMessage = "Authentication failed!";
-            // if (data && data.error && data.error.message) {
-            //   errorMessage = data.error.message;
-            // }
-            alert(errorMessage);
-          });
-        }
-      });
-    }
+    const data = await res.json();
+    console.log(data);
   };
 
   return (
     <section className={classes.auth}>
-      <h1>{isLogin ? "Login" : "Sign Up"}</h1>
+      <h1>Sign Up</h1>
       <form onSubmit={submitHandler}>
         <div className={classes.control}>
+          <label htmlFor="username">Your Username</label>
+          <input type="text" onChange={updateUsernameHandler} />
+        </div>
+        <div className={classes.control}>
           <label htmlFor="email">Your Email</label>
-          <input type="email" id="email" required ref={emailInputRef} />
+          <input type="email" onChange={updateEmailHandler} />
         </div>
         <div className={classes.control}>
           <label htmlFor="password">Your Password</label>
-          <input
-            type="password"
-            id="password"
-            required
-            ref={passwordInputRef}
-          />
+          <input type="password" onChange={updatePasswordHandler} />
         </div>
         <div className={classes.actions}>
-          {!isLoading && (
-            <button>{isLogin ? "Login" : "Create Account"}</button>
-          )}
-          {isLoading && <p>Loading...</p>}
-          <button
-            type="button"
-            className={classes.toggle}
-            onClick={switchAuthModeHandler}
-          >
-            {isLogin ? "Create new account" : "Login with existing account"}
-          </button>
+          <button type="submit">Create new account</button>
         </div>
       </form>
     </section>
