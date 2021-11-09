@@ -26,7 +26,6 @@ const SignUpForm = () => {
   const dispatch = useDispatch();
 
   const submitHandler = async (e) => {
-    console.log("inscription demandée");
     e.preventDefault();
     const dataAuth = {
       username: username,
@@ -44,8 +43,6 @@ const SignUpForm = () => {
     });
 
     const data = await res.json();
-    console.log(data);
-
     dispatch(authActions.login({ token: data.jwt, id: data.user.id }));
   };
 

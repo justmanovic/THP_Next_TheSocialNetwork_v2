@@ -5,9 +5,11 @@ import thunk from "redux-thunk";
 import { combineReducers } from "redux";
 
 import authSlice from "./auth-slice";
+import likeSlice from "./like-slice";
 
 const reducers = combineReducers({
   auth: authSlice.reducer,
+  like: likeSlice.reducer,
 });
 
 const persistConfig = {

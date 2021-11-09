@@ -22,7 +22,6 @@ const SignInForm = () => {
   const dispatch = useDispatch();
 
   const submitHandler = async (e) => {
-    console.log("login demandé");
     e.preventDefault();
     const dataSignIn = {
       identifier: login,
@@ -38,7 +37,6 @@ const SignInForm = () => {
     });
 
     const data = await res.json();
-    console.log(data);
 
     dispatch(authActions.login({ token: data.jwt, id: data.user.id }));
   };

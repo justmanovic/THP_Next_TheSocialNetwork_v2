@@ -27,8 +27,7 @@ const UserProfile = () => {
       // body: JSON.stringify(dataAuth),
     });
     const res = await data.json();
-    // console.log(res);
-    // console.log(token);
+
     setUsername(res.username);
     setEmail(res.email);
     setDescription(res.description);
@@ -51,11 +50,10 @@ const UserProfile = () => {
 
   return (
     <section className={classes.profile}>
-      <h1>MachinProfile</h1>
-      <h1>{id}</h1>
-      <h1>{username}</h1>
-      <h3>{email}</h3>
-      <h3>{description}</h3>
+      <h1>Profil de {username}</h1>
+      <h3>Description : </h3>
+      <p>{description}</p>
+      {/* <small>{id}</small> */}
       <div className={classes.allPosts}>
         {allPosts.map((post) => (
           <SinglePost

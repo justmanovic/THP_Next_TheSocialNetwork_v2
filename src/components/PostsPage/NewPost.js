@@ -9,8 +9,6 @@ const NewPost = (props) => {
   
 
   const PostNewPost = async (e) => {
-    console.log(postContent.current.value);
-    console.log(token)
     e.preventDefault();
     
     const dataAuth = {
@@ -27,8 +25,6 @@ const NewPost = (props) => {
       body: JSON.stringify(dataAuth),
     });
     const res = await data.json();
-    console.log(res);
-
     props.setLastPost(postContent.current.value)
   }
   

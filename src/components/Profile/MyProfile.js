@@ -19,7 +19,6 @@ const MyProfile = () => {
   }, []);
 
   const updateUserDetails = async (e) => {
-    console.log(username);
     e.preventDefault();
     const dataAuth = {
       username: username,
@@ -36,7 +35,6 @@ const MyProfile = () => {
       body: JSON.stringify(dataAuth),
     });
     const res = await data.json();
-    console.log(res);
   };
 
   const fetchMyProfile = async () => {
@@ -48,7 +46,7 @@ const MyProfile = () => {
       },
     });
     const res = await data.json();
-    console.log(res);
+
     setUsername(res.username);
     setEmail(res.email);
     setDescription(res.description);
@@ -85,7 +83,7 @@ const MyProfile = () => {
     setAllPosts(res);
   };
 
-  console.log(allPosts);
+  
 
   return (
     <section className={classes.profile}>

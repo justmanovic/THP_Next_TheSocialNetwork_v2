@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import classes from "./SinglePost.module.css";
+import { likeActions } from "../../store/like-slice";
 
 const SinglePost = (props) => {
-  console.log(props.post);
   const author = props.post.user.username;
   const authorId = props.post.user.id;
   const userId = useSelector((state) => state.auth.id);
@@ -12,14 +12,15 @@ const SinglePost = (props) => {
   const [likeCount, setLikeCount] = useState(props.post.like);
   const token = useSelector((state) => state.auth.token);
   const logStatus = useSelector((state) => state.auth.isLoggedIn);
+  const myLikes = useSelector((state) => state.like.likedPosts);
+  const dispatch = useDispatch();
 
   const addLike = async (e) => {
-    console.log(likeCount);
-
     e.preventDefault();
+    dispatch(likeActions.toggleLike(postId));
 
     const dataAuth = {
-      like: likeCount + 1,
+      like: myLikes.includes(postId) ? likeCount - 1 : likeCount + 1,
     };
 
     const data = await fetch(`http://localhost:1337/posts/${postId}`, {
@@ -31,7 +32,6 @@ const SinglePost = (props) => {
       body: JSON.stringify(dataAuth),
     });
     const res = await data.json();
-    console.log(res);
     setLikeCount(res.like);
   };
 
@@ -53,13 +53,14 @@ const SinglePost = (props) => {
   };
 
   const authorLink = authorId === userId ? "/profile" : `/users/${authorId}`;
+  const likeUnlikeBtn = myLikes.includes(postId) ? "Unlike" : "Like";
 
   return (
     <section className={classes.starting}>
       <h3>Un post</h3>
       <p>{props.post.text}</p>
       <p>{likeCount}</p>
-      {logStatus && <button onClick={addLike}>Like</button>}
+      {logStatus && <button onClick={addLike}>{likeUnlikeBtn}</button>}
 
       <Link to={authorLink}>{author}</Link>
       {props.post.user.id === userId && (
