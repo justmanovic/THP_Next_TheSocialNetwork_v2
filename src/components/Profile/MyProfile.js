@@ -2,6 +2,7 @@ import MyProfileForm from "./MyProfileForm";
 import classes from "./MyProfile.module.css";
 import { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
+import SinglePost from "../PostsPage/SinglePost";
 
 const MyProfile = () => {
   const token = useSelector((state) => state.auth.token);
@@ -9,6 +10,9 @@ const MyProfile = () => {
   const [email, setEmail] = useState("");
   const [description, setDescription] = useState("");
   const [password, setPassword] = useState("");
+  const [allPosts, setAllPosts] = useState([]);
+  const id = useSelector((state) => state.auth.id);
+  const [countPost, setCountPost] = useState(0);
 
   useEffect(() => {
     fetchMyProfile();
@@ -66,6 +70,23 @@ const MyProfile = () => {
     setPassword(e.target.value);
   };
 
+  useEffect(() => {
+    getAllPosts();
+  }, [allPosts]);
+
+  const getAllPosts = async (e) => {
+    const data = await fetch(`http://localhost:1337/posts?user=${id}`, {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const res = await data.json();
+    setAllPosts(res);
+  };
+
+  console.log(allPosts);
+
   return (
     <section className={classes.profile}>
       <h1>My Profile</h1>
@@ -80,6 +101,16 @@ const MyProfile = () => {
         <h2>Changer votre mot de passe</h2>
         <input value={password} type="password" onChange={passwordUpdate} />
         <button type="submit">Modifier !</button>
+        <div className={classes.allPosts}>
+          {allPosts.map((post) => (
+            <SinglePost
+              key={post.id}
+              post={post}
+              setCountPost={setCountPost}
+              countPost={countPost}
+            />
+          ))}
+        </div>
       </form>
 
       <MyProfileForm />
