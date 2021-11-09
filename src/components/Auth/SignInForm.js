@@ -40,7 +40,7 @@ const SignInForm = () => {
     const data = await res.json();
     console.log(data);
 
-    dispatch(authActions.login(data.jwt));
+    dispatch(authActions.login({ token: data.jwt, id: data.user.id }));
   };
 
   return (

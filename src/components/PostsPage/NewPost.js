@@ -5,7 +5,7 @@ import classes from "./NewPost.module.css";
 const NewPost = (props) => {
   const postContent = useRef()
   const token = useSelector((state) => state.auth.token);
-  const id = 1;
+  const id = useSelector((state) => state.auth.id);
   
 
   const PostNewPost = async (e) => {
@@ -28,7 +28,7 @@ const NewPost = (props) => {
     });
     const res = await data.json();
     console.log(res);
-    
+
     props.setLastPost(postContent.current.value)
   }
   

@@ -7,8 +7,7 @@ const SinglePost = (props) => {
   console.log(props.post);
   const author = props.post.user.username;
   const authorId = props.post.user.id;
-  // mettre id dans Redux
-  const userId = 1
+  const userId = useSelector((state) => state.auth.id)
   const postId = props.post.id
   const [likeCount, setLikeCount] = useState(props.post.like);
   const token = useSelector((state) => state.auth.token);
