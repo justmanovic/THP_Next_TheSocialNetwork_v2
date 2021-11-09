@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import classes from "./SinglePost.module.css";
 import { likeActions } from "../../store/like-slice";
+import Button from "../Layout/Button";
 
 const SinglePost = (props) => {
   const author = props.post.user.username;
@@ -53,19 +54,34 @@ const SinglePost = (props) => {
   };
 
   const authorLink = authorId === userId ? "/profile" : `/users/${authorId}`;
-  const likeUnlikeBtn = myLikes.includes(postId) ? "Unlike" : "Like";
+  const likeUnlikeBtn = myLikes.includes(postId) ? (
+    <i class="fas fa-thumbs-up"></i>
+  ) : (
+    <i class="far fa-thumbs-up"></i>
+  );
 
   return (
     <section className={classes.starting}>
-      <h3>Un post</h3>
-      <p>{props.post.text}</p>
-      <p>{likeCount}</p>
-      {logStatus && <button onClick={addLike}>{likeUnlikeBtn}</button>}
+      {props.showLink && <Link to={authorLink}>{author}</Link>}
 
-      <Link to={authorLink}>{author}</Link>
-      {props.post.user.id === userId && (
-        <button onClick={removePost}>Supprimer</button>
-      )}
+      <div>
+        <p>{props.post.text}</p>
+        <div className={classes["like-group"]}>
+          <p>{likeCount}</p>
+          <div>
+            {logStatus && (
+              <Button className={classes["no-border"]} onClick={addLike}>
+                {likeUnlikeBtn}
+              </Button>
+            )}
+          </div>
+          {props.post.user.id === userId && (
+            <Button onClick={removePost} className={classes["no-border"]}>
+              <i class="far fa-trash-alt"></i>
+            </Button>
+          )}{" "}
+        </div>
+      </div>
     </section>
   );
 };

@@ -1,8 +1,44 @@
 .starting {
-  margin: 3rem auto;
-  text-align: center;
+  margin: 1rem auto;
+  text-align: start;
+  gap:3rem;
+  border: 1px gray solid;
+  min-width: 30rem;
+  padding: 1rem;
+  border-radius: 10px;
 }
+
+a {
+  color: inherit;
+  font-weight: bolder;
+}
+
+.starting > div {
+  display: flex;
+  gap: 10rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* .starting > div > div {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+} */
 
 .starting h1 {
   font-size: 5rem;
+}
+
+.like-group {
+  display:flex;
+  align-items: center;
+}
+
+i {
+  transform: translateY(-2px);
+}
+
+.no-border {
+  border: 0;
 }

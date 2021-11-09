@@ -61,6 +61,7 @@ const UserProfile = () => {
             post={post}
             setCountPost={setCountPost}
             countPost={countPost}
+            showLink={false}
           />
         ))}
       </div>

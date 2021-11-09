@@ -24,7 +24,7 @@ const PostsPage = () => {
 
   return (
     <section className={classes.starting}>
-      <h1>Liste des posts</h1>
+      <h1>Les derniers posts...</h1>
       <div className={classes.allPosts}>
         {allPosts.map((post) => (
           <SinglePost
@@ -32,6 +32,7 @@ const PostsPage = () => {
             post={post}
             setCountPost={setCountPost}
             countPost={countPost}
+            showLink={true}
           />
         ))}
       </div>

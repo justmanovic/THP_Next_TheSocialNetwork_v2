@@ -6,3 +6,9 @@
 .starting h1 {
   font-size: 5rem;
 }
+
+textarea {
+  font-family: inherit;
+  padding: 1rem;
+  width: 20rem;
+}

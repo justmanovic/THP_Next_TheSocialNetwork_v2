@@ -3,6 +3,7 @@ import classes from "./MyProfile.module.css";
 import { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import SinglePost from "../PostsPage/SinglePost";
+import Button from "../Layout/Button";
 
 const MyProfile = () => {
   const token = useSelector((state) => state.auth.token);
@@ -83,22 +84,22 @@ const MyProfile = () => {
     setAllPosts(res);
   };
 
-  
-
   return (
     <section className={classes.profile}>
       <h1>My Profile</h1>
-      {description && <p>{description}</p>}
       <form onSubmit={updateUserDetails}>
         <h2>Votre username :</h2>
         <input value={username} type="text" onChange={usernameUpdate} />
         <h2>Votre email :</h2>
         <input value={email} type="text" onChange={emailUpdate} />
         <h2>Votre description :</h2>
+        {description && <p>{description}</p>}
         <textarea value={description} onChange={descriptionUpdate} />
         <h2>Changer votre mot de passe</h2>
         <input value={password} type="password" onChange={passwordUpdate} />
-        <button type="submit">Modifier !</button>
+        {/* <button type="submit">Modifier !</button> */}
+        <Button type="submit">Modifier</Button>
+
         <div className={classes.allPosts}>
           {allPosts.map((post) => (
             <SinglePost
@@ -106,6 +107,7 @@ const MyProfile = () => {
               post={post}
               setCountPost={setCountPost}
               countPost={countPost}
+              showLink={false}
             />
           ))}
         </div>
