@@ -6,6 +6,9 @@ import { useSelector } from "react-redux";
 const UserProfile = () => {
   let { id } = useParams();
   const token = useSelector((state) => state.auth.token);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [description, setDescription] = useState("");
 
   useEffect(() => {
     fetchUserProfile();
@@ -22,15 +25,19 @@ const UserProfile = () => {
     });
     const res = await data.json();
     console.log(res);
-    // setUsername(res.username);
-    // setEmail(res.email);
-    // setDescription(res.description);
+    console.log(token);
+    setUsername(res.username);
+    setEmail(res.email);
+    setDescription(res.description);
   };
 
   return (
     <section className={classes.profile}>
       <h1>MachinProfile</h1>
       <h1>{id}</h1>
+      <h1>{username}</h1>
+      <h3>{email}</h3>
+      <h3>{description}</h3>
     </section>
   );
 };

@@ -7,21 +7,23 @@ const MyProfile = () => {
   const token = useSelector((state) => state.auth.token);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [id, setId] = useState("");
   const [description, setDescription] = useState("");
-  const usernameInput = useRef();
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
     fetchMyProfile();
   }, []);
 
-  const updateUsername = async (e) => {
-    console.log(usernameInput.current.value);
+  const updateUserDetails = async (e) => {
+    console.log(username);
     e.preventDefault();
     const dataAuth = {
-      username: usernameInput.current.value,
+      username: username,
+      email: email,
+      description: description,
+      password: password,
     };
-    const data = await fetch(`http://localhost:1337/users/${id}`, {
+    const data = await fetch(`http://localhost:1337/users/me`, {
       method: "put",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -43,23 +45,40 @@ const MyProfile = () => {
     });
     const res = await data.json();
     console.log(res);
-    setId(res.id);
     setUsername(res.username);
     setEmail(res.email);
     setDescription(res.description);
   };
 
+  const descriptionUpdate = (e) => {
+    setDescription(e.target.value);
+  };
+
+  const emailUpdate = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const usernameUpdate = (e) => {
+    setUsername(e.target.value);
+  };
+
+  const passwordUpdate = (e) => {
+    setPassword(e.target.value);
+  };
+
   return (
     <section className={classes.profile}>
       <h1>My Profile</h1>
-      <h2>Votre username :</h2>
-      <p>{username}</p>
-      <h2>Votre email :</h2>
-      <p>{email}</p>
-      <h2>Votre description :</h2>
       {description && <p>{description}</p>}
-      <form onSubmit={updateUsername}>
-        <input placeholder="Nouvel username" type="text" ref={usernameInput} />
+      <form onSubmit={updateUserDetails}>
+        <h2>Votre username :</h2>
+        <input value={username} type="text" onChange={usernameUpdate} />
+        <h2>Votre email :</h2>
+        <input value={email} type="text" onChange={emailUpdate} />
+        <h2>Votre description :</h2>
+        <textarea value={description} onChange={descriptionUpdate} />
+        <h2>Changer votre mot de passe</h2>
+        <input value={password} type="password" onChange={passwordUpdate} />
         <button type="submit">Modifier !</button>
       </form>
 
