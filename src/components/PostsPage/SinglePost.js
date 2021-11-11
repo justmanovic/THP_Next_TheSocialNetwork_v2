@@ -16,12 +16,30 @@ const SinglePost = (props) => {
   const myLikes = useSelector((state) => state.like.likedPosts);
   const dispatch = useDispatch();
 
+  // console.log(typeof myLikes);
+
   const addLike = async (e) => {
     e.preventDefault();
-    dispatch(likeActions.toggleLike(postId));
+    dispatch(likeActions.toggleLike({ post: postId, user: userId }));
+    console.log(myLikes);
+    console.log(
+      JSON.stringify(
+        myLikes.find(
+          (likedPost) =>
+            likedPost.post === postId && likedPost.userId === userId
+        )
+      ) == JSON.stringify({ post: postId, user: userId })
+    );
 
     const dataAuth = {
-      like: myLikes.includes(postId) ? likeCount - 1 : likeCount + 1,
+      like:
+        JSON.stringify(
+          myLikes.find(
+            (likedPost) => likedPost.post == postId && likedPost.user == userId
+          )
+        ) !== undefined
+          ? likeCount - 1
+          : likeCount + 1,
     };
 
     const data = await fetch(`http://localhost:1337/posts/${postId}`, {
@@ -33,6 +51,7 @@ const SinglePost = (props) => {
       body: JSON.stringify(dataAuth),
     });
     const res = await data.json();
+    console.log(res);
     setLikeCount(res.like);
   };
 
@@ -54,11 +73,7 @@ const SinglePost = (props) => {
   };
 
   const authorLink = authorId === userId ? "/profile" : `/users/${authorId}`;
-  const likeUnlikeBtn = myLikes.includes(postId) ? (
-    <i class="fas fa-thumbs-up"></i>
-  ) : (
-    <i class="far fa-thumbs-up"></i>
-  );
+  const likeUnlikeBtn = <i class="far fa-thumbs-up"></i>;
 
   return (
     <section className={classes.starting}>

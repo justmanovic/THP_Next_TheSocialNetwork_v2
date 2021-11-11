@@ -7,13 +7,24 @@ const likeSlice = createSlice({
   initialState: initialLikeState,
   reducers: {
     toggleLike(state, action) {
-      const post = action.payload;
-      if (state.likedPosts.includes(post)) {
+      const postAction = action.payload;
+      console.log(JSON.stringify(state.likedPosts));
+      // if (state.likedPosts.some((likedPost) => likedPost === post)) {
+      if (
+        state.likedPosts.find(
+          (likedPost) =>
+            likedPost.post === postAction.post &&
+            likedPost.userId === postAction.userId
+        )
+      ) {
         state.likedPosts = state.likedPosts.filter(
-          (likedPost) => likedPost !== post
+          (likedPost) =>
+            likedPost.post !== postAction.post &&
+            likedPost.userId !== postAction.userId
         );
       } else {
-        state.likedPosts.push(post);
+        state.likedPosts.push(postAction);
+        console.log("jsuis dans le ELSE");
       }
     },
   },
